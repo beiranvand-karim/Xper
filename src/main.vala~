@@ -1,0 +1,12 @@
+using Gtk;
+use AppWindow;
+
+int main (string[] args) {
+
+    Gtk.init(ref args);
+    AppWindow window  = new AppWindow();
+
+    window.show_all();
+    Gtk.main();
+	return 0;
+}

@@ -1,6 +1,6 @@
 xper_sources = [
   'main.vala',
-  'window.vala',
+  'MyWindow.vala',
 ]
 
 xper_deps = [
