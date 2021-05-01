@@ -1,14 +1,22 @@
+using GLib;
 using Gtk;
 
-int main (string[] args) {
+public class Main : Object {
 
-    Gtk.init(ref args);
-    var window = new Window();
-    window.title = "Hello, world";
-    window.border_width = 10;
-    window.window_position = WindowPosition.CENTER;
-    window.destroy.connect(Gtk.main_quit);
-    window.show_all();
-    Gtk.main();
-	return 0;
+
+	public void on_destroy (Widget window) {
+		Gtk.main_quit();
+	}
+
+	static int main (string[] args) {
+		Gtk.init (ref args);
+
+         MyWindow window = new MyWindow ();
+         window.show_all();
+         window.destroy.connect (main_quit);
+
+		Gtk.main ();
+
+		return 0;
+	}
 }
