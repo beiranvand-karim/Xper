@@ -4,29 +4,40 @@ public class MyWindow : Gtk.Window {
 
 private Image image;
 
+
 	public MyWindow () {
 
+	// window configuration
 	this.set_title ("Image Viewer in Vala");
     this.border_width = 10;
     this.window_position = WindowPosition.CENTER;
-    this.set_default_size (350, 70);
+    this.set_default_size (500, 500);
+	this.set_events(Gdk.EventMask.POINTER_MOTION_MASK );
 
-	var box = new Box (Orientation.VERTICAL, 5);
+    // headbar configuration
+	Gtk.HeaderBar header = new Gtk.HeaderBar();
 	var button = new Button.with_label ("Open image");
-	image = new Image ();
+    header.pack_start(button);
+    header.set_show_close_button(true);
+    this.set_titlebar(header);
 
-	box.pack_start (image, true, true, 0);
-	box.pack_start (button, false, false, 0);
-	this.add (box);
+    Gtk.Fixed fix = new Gtk.Fixed();
 
 	button.clicked.connect (on_open_image);
-	}
-
-
-public void on_open_image (Button self) {
-	var filter = new FileFilter ();
-	var dialog = new FileChooserDialog ("Open image",
-	                                    this,
+    image = new Image();
+    fix.put(image,50,50);
+    this.add (fix);
+         this.motion_notify_event.connect  ((event) => {
+             fix.move(image, (int) event.x,(int) event.y);
+            return false;
+        });
+ }
+     // dialog
+    public void on_open_image (Button self) {
+    	var filter = new FileFilter ();
+	    var window = new Gtk.Window();
+	    var dialog = new FileChooserDialog ("Open image",
+	                                    window,
 	                                    FileChooserAction.OPEN,
 	                                    Stock.OK,
 	                                    ResponseType.ACCEPT,
@@ -45,5 +56,5 @@ public void on_open_image (Button self) {
 			break;
 	}
 	dialog.destroy ();
-}
+    }
 }
